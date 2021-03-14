@@ -8,6 +8,7 @@ def trans_trek(old_name: str, new_name: str):
             print(1)
     except:
         print(0)
+# тестовый коммент 
 
 
 
