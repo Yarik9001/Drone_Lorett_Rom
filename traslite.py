@@ -1,3 +1,4 @@
+
 import matplotlib.pyplot as plt
 
 
@@ -6,7 +7,8 @@ def trans_trek(old_name: str, new_name: str, deb=False):
     old_neme - original satellite track file name
     new_name - final filename of the satellite track
     '''
-    from math import sin, cos, radians
+    from math import sin, cos, radians , tan
+    FOKUS = 1.4 
     try:
         with open(old_name) as file:  # open old
             file = file.read().split('\n')  # reading
@@ -19,15 +21,15 @@ def trans_trek(old_name: str, new_name: str, deb=False):
                 for a in range(len(mass)):
                     mass[a] = '.'.join(mass[a].split(':'))
                 azimuth = radians(float(mass[1]))
-                elevation = 
-                h1 = 
-                x = round(1 + sin(radians(float(mass[1]))), 5)  # translation
-                y = round(1 + cos(radians(float(mass[2]))), 5)
+                elevation = radians(float(mass[2]))
+                x = 1 - (FOKUS / tan(elevation)) * cos(azimuth) # translation
+                y = 1 - (FOKUS / tan(elevation)) * sin(azimuth)
                 time = mass[0]
                 file_new.write(f'{time}\t{x}\t{y}\n')  # write new data
             file_new.close()
     except:
         print('Satellite track translation error')
+
 
 trans_trek('test_trek_old.txt.txt', 'new.txt')
 
